@@ -23,7 +23,7 @@ class WebConfig(
 }
 
 @Component
-class AuthUserHandlerArgumentResolver : HandlerMethodArgumentResolver{
+class AuthUserHandlerArgumentResolver : HandlerMethodArgumentResolver {
 
     override fun supportsParameter(parameter: MethodParameter): Boolean {
         return AuthUser::class.java.isAssignableFrom(parameter.parameterType)

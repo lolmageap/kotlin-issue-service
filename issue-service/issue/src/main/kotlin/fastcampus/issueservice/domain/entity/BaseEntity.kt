@@ -1,4 +1,4 @@
-package fastcampus.issueservice.domain
+package fastcampus.issueservice.domain.entity
 
 import jakarta.persistence.EntityListeners
 import jakarta.persistence.MappedSuperclass

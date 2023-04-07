@@ -1,6 +1,6 @@
 package fastcampus.issueservice.domain.service
 
-import fastcampus.issueservice.domain.Issue
+import fastcampus.issueservice.domain.entity.Issue
 import fastcampus.issueservice.domain.enums.IssueStatus
 import fastcampus.issueservice.domain.model.request.IssueRequest
 import fastcampus.issueservice.domain.model.response.IssueResponse
@@ -36,8 +36,32 @@ class IssueService(
         issueRepository.findAllByStatusOrderByCreatedAt(status)?.map { IssueResponse(it) }
 
     fun get(id: Long): IssueResponse {
-        val issue = issueRepository.findByIdOrNull(id) ?: throw NotFoundException(message = "이슈가 존재하지 않습니다.")
+        val issue = findById(id)
         return IssueResponse(issue)
+    }
+
+    fun edit(userId: Long, id: Long, request: IssueRequest): IssueResponse {
+        val issue = findById(id)
+        return with(issue) {
+            summery = request.summery
+            description = request.description
+            priority = request.priority
+            status = request.status
+            type = request.type
+
+            val saveIssue = issueRepository.save(this)
+
+            IssueResponse(saveIssue)
+        }
+    }
+
+    fun delete(id: Long): Unit {
+        val findIssue = findById(id)
+        issueRepository.delete(findIssue)
+    }
+
+    fun findById(id: Long): Issue {
+        return issueRepository.findByIdOrNull(id) ?: throw NotFoundException(message = "이슈가 존재하지 않습니다.")
     }
 
 }

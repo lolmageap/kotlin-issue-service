@@ -1,4 +1,4 @@
-package fastcampus.issueservice.domain
+package fastcampus.issueservice.domain.entity
 
 import fastcampus.issueservice.domain.enums.IssuePriority
 import fastcampus.issueservice.domain.enums.IssueStatus
@@ -14,6 +14,10 @@ class Issue(
 
         @Column
         var userId : Long,
+
+        @Column
+        @OneToMany
+        var comments: MutableList<Comment> = mutableListOf(),
 
         @Column
         var summery : String,

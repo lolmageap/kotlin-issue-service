@@ -22,7 +22,7 @@ data class CommentResponse(
         val updatedAt : LocalDateTime?,
 )
 
-fun Comment.toResponse(comment: Comment) = CommentResponse(
+fun Comment.toResponse() = CommentResponse(
         id = id!!,
         issueId = issue.id,
         userId = userId,

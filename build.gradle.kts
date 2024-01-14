@@ -6,6 +6,8 @@ plugins {
 	kotlin("jvm") version "1.7.22"
 	kotlin("plugin.spring") version "1.7.22"
 	kotlin("plugin.jpa") version "1.7.22"
+
+	kotlin("kapt") version "1.7.22"
 }
 
 
@@ -25,20 +27,17 @@ subprojects{
 	apply(plugin = "kotlin")
 	apply(plugin = "kotlin-spring")
 	apply(plugin = "io.spring.dependency-management")
+	apply(plugin = "kotlin-kapt")
 
 	dependencies {
-		// TODO : JWT 인증
 		implementation("com.auth0:java-jwt:3.19.2")
 
-		// TODO : Kotlin Logging
 		implementation("io.github.microutils:kotlin-logging:1.12.5")
 
-		// TODO :Kotlin
 		implementation("org.jetbrains.kotlin:kotlin-reflect")
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-		// TODO : Mysql
 		runtimeOnly("com.mysql:mysql-connector-j:8.0.32")
 
 		testImplementation("org.springframework.boot:spring-boot-starter-test")

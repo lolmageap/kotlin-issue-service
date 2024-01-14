@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 @Configurable
 class WebConfig(
-        private val authUserHandlerArgumentResolver: AuthUserHandlerArgumentResolver,
+    private val authUserHandlerArgumentResolver: AuthUserHandlerArgumentResolver,
 ) : WebMvcConfigurationSupport() {
 
     override fun addArgumentResolvers(argumentResolvers: MutableList<HandlerMethodArgumentResolver>) {
@@ -19,7 +19,6 @@ class WebConfig(
             add(authUserHandlerArgumentResolver)
         }
     }
-
 }
 
 @Component
@@ -29,21 +28,21 @@ class AuthUserHandlerArgumentResolver : HandlerMethodArgumentResolver {
         return AuthUser::class.java.isAssignableFrom(parameter.parameterType)
     }
 
-    override fun resolveArgument(parameter: MethodParameter,
-                                 mavContainer: ModelAndViewContainer?,
-                                 webRequest: NativeWebRequest,
-                                 binderFactory: WebDataBinderFactory?): Any? {
-
+    override fun resolveArgument(
+        parameter: MethodParameter,
+        mavContainer: ModelAndViewContainer?,
+        webRequest: NativeWebRequest,
+        binderFactory: WebDataBinderFactory?,
+    ): Any? {
         return AuthUser(
-                userId = 1,
-                username = "test",
-                )
+            userId = 1,
+            username = "test",
+        )
     }
-
 }
 
 data class AuthUser(
-        val userId : Long,
-        val username : String,
-        val profileUrl: String? = null
+    val userId: Long,
+    val username: String,
+    val profileUrl: String? = null,
 )

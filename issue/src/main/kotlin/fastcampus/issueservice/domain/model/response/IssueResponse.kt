@@ -27,14 +27,14 @@ data class IssueResponse(
         operator fun invoke(issue : Issue) =
             with(issue){
                 IssueResponse(
-                    id = id!!,
+                    id = id,
                     summery = summery,
                     description = description,
                     userId = userId,
                     type = type,
                     priority = priority,
                     status = status,
-                    comments = comments.sortedByDescending(Comment::id).map { it.toResponse(it) },
+                    comments = comments.sortedByDescending(Comment::id).map { it.toResponse() },
                     createdAt = createdAt,
                     updatedAt = updatedAt,
                 )

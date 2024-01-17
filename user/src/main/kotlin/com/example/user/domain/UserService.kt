@@ -1,6 +1,7 @@
 package com.example.user.domain
 
 import com.example.user.config.JWTProperties
+import com.example.user.exception.InvalidJwtTokenException
 import com.example.user.exception.PasswordNotMatchException
 import com.example.user.exception.UserExistException
 import com.example.user.exception.UserNotFoundException
@@ -46,7 +47,7 @@ class UserService(
                 profileUrl = profileUrl,
             )
 
-            val token = JWTUtils().createToken(claim, jwtProperties)
+            val token = JWTUtils.createToken(claim, jwtProperties)
 
             coroutineCacheManager.awaitPut(
                 key = token,
@@ -64,6 +65,23 @@ class UserService(
 
     suspend fun logout(token: String) {
         coroutineCacheManager.awaitEvict(token)
+    }
+
+    suspend fun getByToken(token: String): MeResponse {
+        // 캐시가 유효하지 않은 경우 동작
+        return coroutineCacheManager.awaitGetOrPut(key = token, ttl = CACHE_TTL) {
+            val decode = JWTUtils.decode(token, jwtProperties.secret, jwtProperties.issuer)
+
+            val userId = decode.claims["userId"]?.asLong() ?: throw InvalidJwtTokenException()
+
+            get(userId)
+        }.let{
+            MeResponse(it)
+        }
+    }
+
+    suspend fun get(userId: Long): User {
+        return userRepository.findById(userId) ?: throw UserNotFoundException()
     }
 
     companion object {

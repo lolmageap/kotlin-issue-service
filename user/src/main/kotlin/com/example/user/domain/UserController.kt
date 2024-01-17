@@ -26,4 +26,10 @@ class UserController(
         userService.logout(token)
     }
 
+    @GetMapping("/me")
+    suspend fun get(
+        @AuthToken token: String,
+    ): MeResponse =
+        userService.getByToken(token)
+
 }

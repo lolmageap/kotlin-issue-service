@@ -7,7 +7,7 @@ import com.example.user.config.JWTProperties
 import java.util.*
 
 
-class JWTUtils {
+object JWTUtils {
 
     fun createToken(
         claim: JWTClaim,

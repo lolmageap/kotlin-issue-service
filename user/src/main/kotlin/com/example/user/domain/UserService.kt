@@ -67,7 +67,7 @@ class UserService(
         coroutineCacheManager.awaitEvict(token)
     }
 
-    suspend fun getByToken(token: String): MeResponse {
+    suspend fun getByToken(token: String): User {
         // 캐시가 유효하지 않은 경우 동작
         return coroutineCacheManager.awaitGetOrPut(key = token, ttl = CACHE_TTL) {
             val decode = JWTUtils.decode(token, jwtProperties.secret, jwtProperties.issuer)
@@ -75,13 +75,28 @@ class UserService(
             val userId = decode.claims["userId"]?.asLong() ?: throw InvalidJwtTokenException()
 
             get(userId)
-        }.let{
-            MeResponse(it)
         }
     }
 
     suspend fun get(userId: Long): User {
         return userRepository.findById(userId) ?: throw UserNotFoundException()
+    }
+
+    suspend fun edit(token: String, request: UserEditRequest, file: String?): User {
+        val user = getByToken(token)
+
+        return user.copy(
+            username = request.username,
+            profileUrl = file,
+        ).let {
+            coroutineCacheManager.awaitPut(
+                key = token,
+                value = it,
+                ttl = CACHE_TTL,
+            )
+            userRepository.save(it)
+        }
+
     }
 
     companion object {

@@ -10,9 +10,9 @@ import java.time.LocalDateTime
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 abstract class BaseEntity(
-        @CreatedDate
-        val createdAt : LocalDateTime? = null,
+    @CreatedDate
+    val createdAt : LocalDateTime? = null,
 
-        @LastModifiedDate
-        val updatedAt : LocalDateTime? = null
+    @LastModifiedDate
+    val updatedAt : LocalDateTime? = null
 )

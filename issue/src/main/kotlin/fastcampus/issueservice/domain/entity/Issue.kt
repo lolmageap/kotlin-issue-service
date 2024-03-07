@@ -8,33 +8,31 @@ import jakarta.persistence.*
 @Entity
 @Table
 class Issue(
+   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+   val id : Long,
 
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id : Long,
+   @Column
+   var userId : Long,
 
-        @Column
-        var userId : Long,
+   @Column
+   @OneToMany
+   var comments: MutableList<Comment> = mutableListOf(),
 
-        @Column
-        @OneToMany
-        var comments: MutableList<Comment> = mutableListOf(),
+   @Column
+   var summery : String,
 
-        @Column
-        var summery : String,
+   @Column
+   var description : String,
 
-        @Column
-        var description : String,
+   @Column
+   @Enumerated(EnumType.STRING)
+   var type : IssueType,
 
-        @Column
-        @Enumerated(EnumType.STRING)
-        var type : IssueType,
+   @Column
+   @Enumerated(EnumType.STRING)
+   var priority : IssuePriority,
 
-        @Column
-        @Enumerated(EnumType.STRING)
-        var priority : IssuePriority,
-
-        @Column
-        @Enumerated(EnumType.STRING)
-        var status : IssueStatus,
-
-        ) : BaseEntity()
+   @Column
+   @Enumerated(EnumType.STRING)
+   var status : IssueStatus,
+) : BaseEntity()

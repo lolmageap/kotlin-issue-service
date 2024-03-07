@@ -18,20 +18,18 @@ import org.springframework.web.bind.annotation.RestController
 class CommentController(private val commentService: CommentService) {
 
     @PostMapping
-    fun create(authUser: AuthUser, @PathVariable issueId : Long, @RequestBody request: CommentRequest ) {
+    fun create(authUser: AuthUser, @PathVariable issueId : Long, @RequestBody request: CommentRequest) {
         commentService.create(issueId = issueId, userId = authUser.userId, userName = authUser.username, request = request)
     }
 
     @PutMapping("/{id}")
-    fun edit(authUser: AuthUser, @PathVariable issueId : Long, @PathVariable id : Long, @RequestBody request: CommentRequest ) {
+    fun edit(authUser: AuthUser, @PathVariable issueId : Long, @PathVariable id : Long, @RequestBody request: CommentRequest) {
         commentService.edit(commentId = id, issueId = issueId, userId = authUser.userId, request = request)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(authUser: AuthUser, @PathVariable issueId : Long, @PathVariable id : Long ) {
+    fun delete(authUser: AuthUser, @PathVariable issueId : Long, @PathVariable id : Long) {
         commentService.delete(userId = authUser.userId, issueId = issueId, commentId = id)
     }
-
-
 }

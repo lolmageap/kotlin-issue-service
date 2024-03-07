@@ -29,5 +29,4 @@ class Comment(
 
     @Column
     var body : String,
-
-    ) : BaseEntity()
+) : BaseEntity()
